@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonRpcServer", "src\JsonRpcServer\JsonRpcServer.csproj", "{3D747FA9-0F28-9B9B-7B6A-674BDB12148E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonRpcClient", "src\JsonRpcClient\JsonRpcClient.csproj", "{C8A59706-43E8-461E-97EB-BF42D03D2932}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +19,17 @@ Global
 		{3D747FA9-0F28-9B9B-7B6A-674BDB12148E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D747FA9-0F28-9B9B-7B6A-674BDB12148E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D747FA9-0F28-9B9B-7B6A-674BDB12148E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8A59706-43E8-461E-97EB-BF42D03D2932}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8A59706-43E8-461E-97EB-BF42D03D2932}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8A59706-43E8-461E-97EB-BF42D03D2932}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8A59706-43E8-461E-97EB-BF42D03D2932}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3D747FA9-0F28-9B9B-7B6A-674BDB12148E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{C8A59706-43E8-461E-97EB-BF42D03D2932} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {095C9900-F5B1-4614-BF64-23AA7310D5EB}
