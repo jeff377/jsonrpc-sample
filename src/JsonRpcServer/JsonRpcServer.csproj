@@ -8,7 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="Bee.Api.AspNetCore" Version="3.0.18" />
-    <PackageReference Include="Bee.Business" Version="3.0.18" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Custom.Business\Custom.Business.csproj" />
   </ItemGroup>
 
 </Project>

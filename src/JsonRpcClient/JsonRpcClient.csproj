@@ -9,8 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bee.Business" Version="3.0.18" />
     <PackageReference Include="Bee.UI.WinForms" Version="3.0.18" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Custom.Business\Custom.Business.csproj" />
+    <ProjectReference Include="..\Custom.Define\Custom.Define.csproj" />
   </ItemGroup>
 
 </Project>

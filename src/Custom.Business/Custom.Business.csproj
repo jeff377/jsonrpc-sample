@@ -8,4 +8,8 @@
     <PackageReference Include="Bee.Business" Version="3.0.18" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Custom.Define\Custom.Define.csproj" />
+  </ItemGroup>
+
 </Project>
