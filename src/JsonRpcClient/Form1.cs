@@ -2,6 +2,7 @@ using Bee.Connect;
 using Bee.Define;
 using Bee.UI.Core;
 using Bee.UI.WinForms;
+using Custom.Define;
 
 namespace JsonRpcClient
 {
@@ -43,8 +44,18 @@ namespace JsonRpcClient
         /// 顯示連線設定介面，重新設定連線的服務端點。
         /// </summary>
         private void btnShowConnect_Click(object sender, EventArgs e)
-        {            
+        {
             ClientInfo.UIViewService.ShowConnect();
+        }
+
+        private void btnHello_Click(object sender, EventArgs e)
+        {
+            var connecotr = ClientInfo.CreateFormConnector("Employee");
+            var args = new THelloArgs()
+            {
+                UserName = "Jeff"
+            };
+            var result = connecotr.Execute<THelloResult>("Hello", args);
         }
     }
 }

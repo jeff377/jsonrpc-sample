@@ -31,6 +31,7 @@
             btnInitialize = new Button();
             btnPing = new Button();
             btnShowConnect = new Button();
+            btnHello = new Button();
             this.SuspendLayout();
             // 
             // btnInitialize
@@ -63,11 +64,22 @@
             btnShowConnect.UseVisualStyleBackColor = true;
             btnShowConnect.Click += this.btnShowConnect_Click;
             // 
+            // btnHello
+            // 
+            btnHello.Location = new Point(332, 123);
+            btnHello.Name = "btnHello";
+            btnHello.Size = new Size(105, 23);
+            btnHello.TabIndex = 3;
+            btnHello.Text = "Hello";
+            btnHello.UseVisualStyleBackColor = true;
+            btnHello.Click += this.btnHello_Click;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new SizeF(7F, 15F);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.ClientSize = new Size(690, 420);
+            this.Controls.Add(btnHello);
             this.Controls.Add(btnShowConnect);
             this.Controls.Add(btnPing);
             this.Controls.Add(btnInitialize);
@@ -81,5 +93,6 @@
         private Button btnInitialize;
         private Button btnPing;
         private Button btnShowConnect;
+        private Button btnHello;
     }
 }
