@@ -36,7 +36,7 @@
             // 
             // btnInitialize
             // 
-            btnInitialize.Location = new Point(81, 114);
+            btnInitialize.Location = new Point(105, 123);
             btnInitialize.Name = "btnInitialize";
             btnInitialize.Size = new Size(75, 23);
             btnInitialize.TabIndex = 0;
@@ -66,7 +66,7 @@
             // 
             // btnHello
             // 
-            btnHello.Location = new Point(332, 123);
+            btnHello.Location = new Point(320, 123);
             btnHello.Name = "btnHello";
             btnHello.Size = new Size(105, 23);
             btnHello.TabIndex = 3;

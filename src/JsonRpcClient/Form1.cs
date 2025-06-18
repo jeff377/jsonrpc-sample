@@ -18,6 +18,11 @@ namespace JsonRpcClient
             // 用戶端初始化
             if (ClientInfo.Initialize(new TUIViewService(), ESupportedConnectTypes.Both, true))
             {
+                if (FrontendInfo.ConnectType == EConnectType.Local)
+                {
+                    var settings = ClientInfo.DefineAccess.GetSystemSettings();
+                    settings.Initialize();
+                }
                 MessageBox.Show("初始化成功");
             }
             else
@@ -56,6 +61,7 @@ namespace JsonRpcClient
                 UserName = "Jeff"
             };
             var result = connecotr.Execute<THelloResult>("Hello", args);
+            MessageBox.Show($"Message : {result.Message}");
         }
     }
 }
