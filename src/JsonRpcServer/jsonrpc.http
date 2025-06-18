@@ -22,6 +22,7 @@ X-Api-Key: {{apiKey}}
 }
 ###
 
+// Hello 方法
 POST {{baseUrl}}/api
 Accept: application/json
 content-type: application/json
@@ -30,35 +31,13 @@ Authorization: {{accessToken}}
 
 {
   "jsonrpc": "2.0",
-  "method": "System.ExecFunc",
+  "method": "Employee.Hello",
   "params": {
     "value": {
-      "$type": "Bee.Define.TExecFuncArgs, Bee.Define",
-      "FuncID": "Hello"
+      "$type": "Custom.Define.THelloArgs, Custom.Define",
+      "userName": "Jeff"
     }
   },
-  "id": "228bd7e0-603f-4433-93d9-9c03ebabc5e4"
-}
-###
-
-// GetDefine 方法 (編碼)
-POST {{baseUrl}}/api
-Accept: application/json
-content-type: application/json
-X-Api-Key: {{apiKey}}
-Authorization: {{accessToken}}
-
-{
-  "jsonrpc": "2.0",
-  "method": "System.GetDefine",
-  "params": {
-    "value": {
-      "$type": "System.Byte[], System.Private.CoreLib",
-      "$value": "NzFjZTMzOTgzYjJkNDMxNzkyNTZkYTRkOTNjYzE2OGUwNzg0Nzg5NGIxNzk0NDI0mIDVnNsOOrL5sKVC7x8S1QggkbE+VjzoYekFna4cRLiWOsa3p1zZS934E8LispaF/nCKc3+b18NcK4H7mEc82YW298XwtsakDWKiZRuyVys1LTqpDgKqkxFRfd4nPo1/YJZosZ7E6pZuQjAuR0nJbmc9dJtZC/xIMFeB+0EKzodR5nTncAlu7l0cHycaPZMsit4tRlhIv4iG8eB5E9yj52VWj1TfQhEaL5YDRd6GRtQWF6jUJR/QU03NEyuUFa0HJj9a0Bz1PkmopAkH/ivRGTAH3MEhG5zulNwK8RxeEUDXjj8HC76i5yOrSOjzCfAs"
-    },
-    "isEncoded": true,
-    "type": "Bee.Define.TGetDefineArgs, Bee.Define"
-  },
-  "id": "795bfacc-892a-4bff-bbff-fba51dcf6367"
+  "id": "e942952b-6450-412c-bb24-c6ab7c804789"
 }
 ###

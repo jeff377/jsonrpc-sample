@@ -1,3 +1,5 @@
+using Bee.Api.Core;
+using Bee.Base;
 using Bee.Connect;
 using Bee.Define;
 using Bee.UI.Core;
@@ -20,8 +22,11 @@ namespace JsonRpcClient
             {
                 if (FrontendInfo.ConnectType == EConnectType.Local)
                 {
+                    // 系統設定初始化
                     var settings = ClientInfo.DefineAccess.GetSystemSettings();
                     settings.Initialize();
+                    // 初始化 API 服務選項，設定序列化器、壓縮器與加密器的實作
+                    ApiServiceOptions.Initialize(settings.CommonConfiguration.ApiPayloadOptions);
                 }
                 MessageBox.Show("初始化成功");
             }
@@ -50,6 +55,11 @@ namespace JsonRpcClient
         /// </summary>
         private void btnShowConnect_Click(object sender, EventArgs e)
         {
+            if (ClientInfo.UIViewService == null)
+            {
+                MessageBox.Show("請先執行 Initialize 方法");
+                return;
+            }
             ClientInfo.UIViewService.ShowConnect();
         }
 
@@ -62,6 +72,7 @@ namespace JsonRpcClient
             };
             var result = connecotr.Execute<THelloResult>("Hello", args);
             MessageBox.Show($"Message : {result.Message}");
+            edtJsoin.Text = $"Args:\r\n{args.ToJson()}\r\n\r\nResult:\r\n{result.ToJson()}";
         }
     }
 }

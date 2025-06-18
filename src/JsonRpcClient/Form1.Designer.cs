@@ -32,6 +32,7 @@
             btnPing = new Button();
             btnShowConnect = new Button();
             btnHello = new Button();
+            edtJsoin = new TextBox();
             this.SuspendLayout();
             // 
             // btnInitialize
@@ -74,11 +75,20 @@
             btnHello.UseVisualStyleBackColor = true;
             btnHello.Click += this.btnHello_Click;
             // 
+            // edtJsoin
+            // 
+            edtJsoin.Location = new Point(35, 171);
+            edtJsoin.Multiline = true;
+            edtJsoin.Name = "edtJsoin";
+            edtJsoin.Size = new Size(610, 225);
+            edtJsoin.TabIndex = 4;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new SizeF(7F, 15F);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.ClientSize = new Size(690, 420);
+            this.Controls.Add(edtJsoin);
             this.Controls.Add(btnHello);
             this.Controls.Add(btnShowConnect);
             this.Controls.Add(btnPing);
@@ -86,6 +96,7 @@
             this.Name = "Form1";
             this.Text = "JSON-RPC Client";
             this.ResumeLayout(false);
+            this.PerformLayout();
         }
 
         #endregion
@@ -94,5 +105,6 @@
         private Button btnPing;
         private Button btnShowConnect;
         private Button btnHello;
+        private TextBox edtJsoin;
     }
 }
