@@ -29,11 +29,13 @@
         private void InitializeComponent()
         {
             btnInitialize = new Button();
+            btnPing = new Button();
+            btnShowConnect = new Button();
             this.SuspendLayout();
             // 
             // btnInitialize
             // 
-            btnInitialize.Location = new Point(66, 30);
+            btnInitialize.Location = new Point(81, 114);
             btnInitialize.Name = "btnInitialize";
             btnInitialize.Size = new Size(75, 23);
             btnInitialize.TabIndex = 0;
@@ -41,19 +43,43 @@
             btnInitialize.UseVisualStyleBackColor = true;
             btnInitialize.Click += this.btnInitialize_Click;
             // 
+            // btnPing
+            // 
+            btnPing.Location = new Point(127, 32);
+            btnPing.Name = "btnPing";
+            btnPing.Size = new Size(75, 23);
+            btnPing.TabIndex = 1;
+            btnPing.Text = "Ping";
+            btnPing.UseVisualStyleBackColor = true;
+            btnPing.Click += this.btnPing_Click;
+            // 
+            // btnShowConnect
+            // 
+            btnShowConnect.Location = new Point(186, 123);
+            btnShowConnect.Name = "btnShowConnect";
+            btnShowConnect.Size = new Size(128, 23);
+            btnShowConnect.TabIndex = 2;
+            btnShowConnect.Text = "ShowConnect";
+            btnShowConnect.UseVisualStyleBackColor = true;
+            btnShowConnect.Click += this.btnShowConnect_Click;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new SizeF(7F, 15F);
             this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(442, 309);
+            this.ClientSize = new Size(690, 420);
+            this.Controls.Add(btnShowConnect);
+            this.Controls.Add(btnPing);
             this.Controls.Add(btnInitialize);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "JSON-RPC Client";
             this.ResumeLayout(false);
         }
 
         #endregion
 
         private Button btnInitialize;
+        private Button btnPing;
+        private Button btnShowConnect;
     }
 }
