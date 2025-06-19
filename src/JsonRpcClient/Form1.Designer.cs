@@ -94,16 +94,16 @@
             groupBox1.Size = new Size(497, 121);
             groupBox1.TabIndex = 4;
             groupBox1.TabStop = false;
-            groupBox1.Text = "使用 Bee.Connect 套件";
+            groupBox1.Text = "Using Bee.Connect Package";
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Location = new Point(85, 51);
             label2.Name = "label2";
-            label2.Size = new Size(283, 15);
+            label2.Size = new Size(254, 15);
             label2.TabIndex = 5;
-            label2.Text = "備註 : Endpoint 輸入 DefinePath 路徑即為近端連線";
+            label2.Text = "Note: Enter DefinePath for local connection.";
             // 
             // btnConnector_Hello
             // 
@@ -142,7 +142,7 @@
             groupBox2.Size = new Size(497, 115);
             groupBox2.TabIndex = 5;
             groupBox2.TabStop = false;
-            groupBox2.Text = "使用 Bee.UI.WinForms 套件";
+            groupBox2.Text = "Using Bee.UI.WinForms Package";
             // 
             // Form1
             // 

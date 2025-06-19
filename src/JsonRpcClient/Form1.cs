@@ -1,6 +1,4 @@
-using System.Threading.Tasks.Sources;
 using Bee.Api.Core;
-using Bee.Base;
 using Bee.Connect;
 using Bee.Define;
 using Bee.UI.Core;
@@ -64,11 +62,11 @@ namespace JsonRpcClient
             var result = connector.Execute<TPingResult>(SystemActions.Ping, args, false);
             if (result.Status == "ok")
             {
-                MessageBox.Show($"Version : {result.Version} \nServer Time : {result.ServerTime}");
+                MessageBox.Show($"Ping method executed successfully.\nVersion: {result.Version}\nServer Time: {result.ServerTime}");
             }
             else
             {
-                MessageBox.Show("Ping 方法執行失敗");
+                MessageBox.Show("Ping method execution failed.");
             }
         }
 
@@ -97,9 +95,12 @@ namespace JsonRpcClient
             // 執行表單層級業務邏輯物件的 Hello 方法，即為 TEmployeeBusinessObject.Hello 方法
             var args = new THelloArgs() { UserName = "Jeff" }; 
             var result = connector.Execute<THelloResult>("Hello", args);
-            MessageBox.Show($"Message : {result.Message}");
+            MessageBox.Show($"Message: {result.Message}");
         }
 
+        /// <summary>
+        /// 用戶端初始化。
+        /// </summary>
         private void btnInitialize_Click(object sender, EventArgs e)
         {
             // 用戶端初始化，內部呼叫 Ping 方法驗證伺服端是否能正常連線           
@@ -117,17 +118,17 @@ namespace JsonRpcClient
                     // 初始化 API 服務選項，設定序列化器、壓縮器與加密器的實作
                     ApiServiceOptions.Initialize(settings.CommonConfiguration.ApiPayloadOptions);
                     // 顯示近端連線設定的 DefinePath 路徑
-                    MessageBox.Show($"ConnectType : {FrontendInfo.ConnectType}\nDefinePath : {BackendInfo.DefinePath}");
+                    MessageBox.Show($"ConnectType: {FrontendInfo.ConnectType}\nDefinePath: {BackendInfo.DefinePath}");
                 }
                 else
                 {
                     // 顯示遠端端連線設定的 Endpoint
-                    MessageBox.Show($"ConnectType : {FrontendInfo.ConnectType}\nEndpoint : {FrontendInfo.Endpoint}");
+                    MessageBox.Show($"ConnectType: {FrontendInfo.ConnectType}\nEndpoint: {FrontendInfo.Endpoint}");
                 }
             }
             else
             {
-                MessageBox.Show("初始化失敗");
+                MessageBox.Show("Initialization failed.");
             }
         }
 
@@ -138,12 +139,15 @@ namespace JsonRpcClient
         {
             if (ClientInfo.UIViewService == null)
             {
-                MessageBox.Show("請先執行 Initialize 方法");
+                MessageBox.Show("Please execute the Initialize method first.");
                 return;
             }
             ClientInfo.UIViewService.ShowConnect();
         }
 
+        /// <summary>
+        /// 透過 ClientInfo 建立 TFormConnector， 執行 Hello 方法。
+        /// </summary>
         private void btnHello_Click(object sender, EventArgs e)
         {
             var connecotr = ClientInfo.CreateFormConnector("Employee");
@@ -152,7 +156,7 @@ namespace JsonRpcClient
                 UserName = "Jeff"
             };
             var result = connecotr.Execute<THelloResult>("Hello", args);
-            MessageBox.Show($"Message : {result.Message}");
+            MessageBox.Show($"Message: {result.Message}");
         }
 
 
