@@ -39,45 +39,12 @@
 
 ---
 
-## 使用步驟
-1. 設置 `System.Settings.xml` 設定檔。
-2. 在 `Custom.Business` 專案建立商業邏輯物件。
-3. 在 `Custom.Define` 專案，建立商業邏輯方法的傳入參數及傳出結果類別。
-4. 啟動 `JsonRpcServer` 專案，使用 `jsonrpc.http` 執行 JSON-RPC 方法，確認伺服端正常運行。
-5. 啟動 `JsonRpcClient` 專案，使用遠端連線執行 JSON-RPC 方法。
-6. 啟動 `JsonRpcClient` 專案，使用近端連線執行 JSON-RPC 方法。
-
----
-
-## 設置 System.Settings.xml 設定檔
-`AllowedTypeNamespaces` 設定 JSON 反序列化的命名空間的白名單。
-`ApiPayloadOptions` 是設定編碼方式（序列化 + 壓縮 + 加密）。
-`BusinessObjectProvider` 指定業務邏輯物件提供者，以建立 ProgID 對應的業務邏輯物件。
-<?xml version="1.0" encoding="utf-8"?>
-<SystemSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <CommonConfiguration>
-        <Version>1.0.0</Version>
-        <IsDebugMode>true</IsDebugMode>
-        <AllowedTypeNamespaces>Custom.Define</AllowedTypeNamespaces>
-        <ApiPayloadOptions>
-            <Serializer>messagepack</Serializer>
-            <Compressor>gzip</Compressor>
-            <Encryptor>aes256</Encryptor>
-        </ApiPayloadOptions>
-    </CommonConfiguration>
-    <BackendConfiguration>
-        <BusinessObjectProvider>Custom.Business.TBusinessObjectProvider, Custom.Business</BusinessObjectProvider>
-    </BackendConfiguration>
-</SystemSettings>
----
-
-## 呼叫 JSON-RPC 方法的 JSON 格式
+## JSON-RPC 請求範例
 `method` 的格式為 `{ProgID}.{Method}`。
 `"$type"` 為 Method 傳入參數型別。
-
-### JSON-RPC 請求範例{
+{
   "jsonrpc": "2.0",
-  "method": "{ProgID}.{Method}",
+  "method": "Employee.Hello",
   "params": {
     "value": {
       "$type": "Custom.Define.THelloArgs, Custom.Define",
@@ -88,50 +55,30 @@
 }
 ---
 
-## 使用方式
+## 開發者指南
+1. **設置 System.Settings.xml**:
+   - 設定 `AllowedTypeNamespaces` 為 JSON 反序列化的命名空間白名單。
+   - 設定 `ApiPayloadOptions` 為編碼方式（序列化 + 壓縮 + 加密）。
+   - 指定 `BusinessObjectProvider` 為業務邏輯物件提供者。
 
-### 1. 客戶端操作
-#### 初始化
-在客戶端應用程式中，點擊「初始化」按鈕執行以下操作：
-- 初始化客戶端，並設定支援的連線類型。
-- 如果是本地連線，則載入系統設定。
+2. **擴展業務邏輯**:
+   - 在 `Custom.Business` 專案中新增業務邏輯物件，並實現相關方法。
+   - 在 `Custom.Define` 專案中定義業務邏輯方法的傳入參數及傳出結果類別。
 
-#### Ping 方法
-點擊「Ping」按鈕執行伺服器端的 `Ping` 方法，測試伺服器是否正常運作。
+3. **啟動伺服器**:
+   - 啟動 `JsonRpcServer` 專案，使用 `BackendExtensions.BackendInitialize` 方法進行伺服器初始化：
+     - 設定 `DefinePath`，確保目錄存在。
+     - 初始化系統設定與 API 服務選項。
+   - 使用 `jsonrpc.http` 文件測試 JSON-RPC 方法，確認伺服端正常運行。
 
-#### Hello 方法
-點擊「Hello」按鈕執行伺服器端的 `Hello` 方法，並顯示返回的訊息。
-
----
-
-### 2. 伺服器端操作
-#### 初始化
-使用 `BackendExtensions.BackendInitialize` 方法進行伺服器初始化：
-- 設定 `DefinePath`，確保目錄存在。
-- 初始化系統設定與 API 服務選項。
-
-#### JSON-RPC 方法
-伺服器端支援以下 JSON-RPC 方法：
-- **Ping**: 測試伺服器是否正常運作。
-- **Hello**: 返回基於用戶名稱的歡迎訊息。
+4. **啟動客戶端**:
+   - 啟動 `JsonRpcClient` 專案，使用遠端或近端連線執行 JSON-RPC 方法。
 
 ---
 
 ## 系統需求
 - **.NET 8**: 用於客戶端應用程式。
 - **.NET Standard 2.0**: 用於業務邏輯模組。
-
----
-
-## 開發者指南
-1. **設定 DefinePath**:
-   - 在伺服器端的 `appsettings.json` 中設定 `DefinePath`，指向業務邏輯定義的目錄。
-
-2. **擴展業務邏輯**:
-   - 在 `Custom.Business` 中新增業務邏輯物件，並實現相關方法。
-
-3. **測試 JSON-RPC**:
-   - 使用 `jsonrpc.http` 文件測試伺服器端的 JSON-RPC 方法。
 
 ---
 
