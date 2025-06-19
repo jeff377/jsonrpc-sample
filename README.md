@@ -34,7 +34,7 @@
    - 提供伺服端初始化與 API 註冊的擴充方法
    - 使用 `BackendExtensions` 設定 `DefinePath` 並初始化服務
 
-5. **JsonRpcClient**
+5. **JsonRpcClient 專案**
    - Windows Forms 範例用戶端，示範如何透過 JSON-RPC 與伺服器互動
    - 使用 `Bee.Connect` 與 `Bee.UI.WinForms` 等套件呼叫 API 方法
 
