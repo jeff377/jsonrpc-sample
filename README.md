@@ -17,20 +17,20 @@
 
 此專案包含以下模組：
 
-1. **DefinePath**
+1. **DefinePath 資料夾**
    - 定義系統參數檔路徑（如 `System.Settings.xml`, `Database.Settings.xml`）
    - 本範例僅使用 `System.Settings.xml`
 
-2. **Custom.Define**
+2. **Custom.Define 專案**
    - 定義業務邏輯的參數與結果資料類型（例如 `THelloArgs`, `THelloResult`）
    - 為 JSON-RPC 用戶端與伺服端共用的模組
 
-3. **Custom.Business**
+3. **Custom.Business 專案**
    - 實作業務邏輯物件（如 `TEmployeeBusinessObject`）及其方法（如 `Hello`）
    - 為伺服端必要模組，開發階段近端用戶端亦可參考
    - 所有 JSON-RPC 呼叫皆以類別形式傳遞參數與接收結果
 
-4. **JsonRpcServer**
+4. **JsonRpcServer 專案**
    - 提供伺服端初始化與 API 註冊的擴充方法
    - 使用 `BackendExtensions` 設定 `DefinePath` 並初始化服務
 
