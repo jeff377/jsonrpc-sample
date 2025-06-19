@@ -1,4 +1,5 @@
 ﻿using System;
+using Bee.Business;
 using Bee.Define;
 
 namespace Custom.Business
@@ -18,24 +19,24 @@ namespace Custom.Business
         /// 建立系統層級業務邏輯物件。
         /// </summary>
         /// <param name="accessToken">存取令牌。</param>
-        public object CreateSystemObject(Guid accessToken)
+        public ISystemBusinessObject CreateSystemBusinessObject(Guid accessToken)
         {
-            return SysFunc.CreateSystemObject(accessToken);
+            return new TSystemBusinessObject(accessToken);
         }
 
         /// <summary>
         /// 建立表單層級業務邏輯物件。
         /// </summary>
         /// <param name="accessToken">存取令牌。</param>
-        /// <param name="progID">程式代碼。</param>
-        public object CreateFormObject(Guid accessToken, string progID)
+        /// <param name="progId">程式代碼。</param>
+        public IFormBusinessObject CreateFormBusinessObject(Guid accessToken, string progId)
         {
-            switch (progID)
+            switch (progId)
             {
                 case "Employee":  // 員工
-                    return new TEmployeeObject(accessToken, progID);
+                    return new TEmployeeObject(accessToken, progId);
                 default:
-                    return SysFunc.CreateBusinessObject(accessToken, progID);
+                    return new TFormBusinessObject(accessToken, progId);
             }
         }
     }

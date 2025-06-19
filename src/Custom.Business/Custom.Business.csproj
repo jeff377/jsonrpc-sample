@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bee.Business" Version="3.0.19" />
+    <PackageReference Include="Bee.Business" Version="3.0.20" />
   </ItemGroup>
 
   <ItemGroup>
