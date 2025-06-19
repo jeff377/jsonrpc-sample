@@ -1,3 +1,4 @@
+using System.Threading.Tasks.Sources;
 using Bee.Api.Core;
 using Bee.Base;
 using Bee.Connect;
@@ -15,11 +16,99 @@ namespace JsonRpcClient
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 設置連線方式，連線設定時使用。
+        /// </summary>
+        /// <param name="connectType">服務連線方式。</param>
+        /// <param name="endpoint">服端端點，遠端連線為網址，近端連線為本地路徑。</param>
+        private void SetConnectType(EConnectType connectType, string endpoint)
+        {
+            if (connectType == EConnectType.Local)
+            {
+                // 設定近端連線相關屬性
+                FrontendInfo.ConnectType = EConnectType.Local;
+                FrontendInfo.Endpoint = string.Empty;
+                BackendInfo.DefinePath = endpoint;
+            }
+            else
+            {
+                // 設定遠端連線相關屬性
+                FrontendInfo.ConnectType = EConnectType.Remote;
+                FrontendInfo.Endpoint = endpoint;
+                BackendInfo.DefinePath = string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// 透過 TSystemConnector 執行 Ping 方法。
+        /// </summary>
+        private void btnConnector_Ping_Click(object sender, EventArgs e)
+        {
+            // 判斷服務端點位置為本地路徑或網址，傳回對應的連線方式
+            string endpoint = edtEndpoint.Text;
+            var validator = new TApiConnectValidator();
+            var connectType = validator.Validate(endpoint);
+
+            // 設置連線方式
+            SetConnectType(connectType, endpoint);
+
+            // 系統層級 API 服務連接器
+            TSystemConnector connector;
+            if (connectType == EConnectType.Local)
+                connector = new TSystemConnector(Guid.Empty);  // 連端連線
+            else
+                connector = new TSystemConnector(endpoint, Guid.Empty);
+
+            // 執行系統層級業務邏輯物件的 Ping 方法
+            var args = new TPingArgs();
+            var result = connector.Execute<TPingResult>(SystemActions.Ping, args, false);
+            if (result.Status == "ok")
+            {
+                MessageBox.Show($"Version : {result.Version} \nServer Time : {result.ServerTime}");
+            }
+            else
+            {
+                MessageBox.Show("Ping 方法執行失敗");
+            }
+        }
+
+        /// <summary>
+        /// 透過 TFormConnector 執行 Hello 方法。
+        /// </summary>
+        private void btnConnector_Hello_Click(object sender, EventArgs e)
+        {
+            // 判斷服務端點位置為本地路徑或網址，傳回對應的連線方式
+            string endpoint = edtEndpoint.Text;
+            var validator = new TApiConnectValidator();
+            var connectType = validator.Validate(endpoint);
+
+            // 設置連線方式
+            SetConnectType(connectType, endpoint);
+
+            // 程式代碼 Employee 對應至 TEmployeeBusinessObject 業務邏輯物件
+            string progId = "Employee";
+            // 表單層級 API 服務連接器
+            TFormConnector connector;            
+            if (connectType == EConnectType.Local)
+                connector = new TFormConnector(Guid.Empty, progId);  // 連端連線
+            else
+                connector = new TFormConnector(endpoint, Guid.Empty, progId);
+
+            // 執行表單層級業務邏輯物件的 Hello 方法，即為 TEmployeeBusinessObject.Hello 方法
+            var args = new THelloArgs() { UserName = "Jeff" }; 
+            var result = connector.Execute<THelloResult>("Hello", args);
+            MessageBox.Show($"Message : {result.Message}");
+        }
+
         private void btnInitialize_Click(object sender, EventArgs e)
         {
-            // 用戶端初始化
+            // 用戶端初始化，內部呼叫 Ping 方法驗證伺服端是否能正常連線           
+            // 第一次會顯示連線設定介面，設置完成後會將 Endpoint 儲存於執行檔路徑下的 Client.Settings.xml
+            // 若二次會由 Client.Settings.xml 取得 Endpoint，進行初始化
+            // 若要重新設定連線，請呼叫 ShowConnect 方法
             if (ClientInfo.Initialize(new TUIViewService(), ESupportedConnectTypes.Both, true))
             {
+                // 若為近端遲線，需在用戶端模擬伺服端的初始化
                 if (FrontendInfo.ConnectType == EConnectType.Local)
                 {
                     // 系統設定初始化
@@ -27,27 +116,19 @@ namespace JsonRpcClient
                     settings.Initialize();
                     // 初始化 API 服務選項，設定序列化器、壓縮器與加密器的實作
                     ApiServiceOptions.Initialize(settings.CommonConfiguration.ApiPayloadOptions);
+                    // 顯示近端連線設定的 DefinePath 路徑
+                    MessageBox.Show($"ConnectType : {FrontendInfo.ConnectType}\nDefinePath : {BackendInfo.DefinePath}");
                 }
-                MessageBox.Show("初始化成功");
+                else
+                {
+                    // 顯示遠端端連線設定的 Endpoint
+                    MessageBox.Show($"ConnectType : {FrontendInfo.ConnectType}\nEndpoint : {FrontendInfo.Endpoint}");
+                }
             }
             else
             {
                 MessageBox.Show("初始化失敗");
             }
-        }
-
-        /// <summary>
-        /// 使用 Connector 執行 Ping 方法。
-        /// </summary>
-        private void btnPing_Click(object sender, EventArgs e)
-        {
-            var connector = new TSystemConnector("http://localhost:5000/api", Guid.Empty);
-            var args = new TPingArgs();
-            var result = connector.Execute<TPingResult>(SystemActions.Ping, args, false);
-            if (result.Status != "ok")
-                MessageBox.Show("Ping 方法執行成功");
-            else
-                MessageBox.Show("Ping 方法執行成功");
         }
 
         /// <summary>
@@ -72,7 +153,9 @@ namespace JsonRpcClient
             };
             var result = connecotr.Execute<THelloResult>("Hello", args);
             MessageBox.Show($"Message : {result.Message}");
-            edtJsoin.Text = $"Args:\r\n{args.ToJson()}\r\n\r\nResult:\r\n{result.ToJson()}";
         }
+
+
+
     }
 }

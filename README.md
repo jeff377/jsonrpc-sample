@@ -2,9 +2,12 @@
 
 ## 專案概述
 `jsonrpc-sample` 是一個基於 JSON-RPC 的範例方案，展示如何使用 .NET 技術實現用戶端與伺服器端的互動。此方案包含以下主要功能：
-- 客戶端初始化與伺服器端點設定。
+- JSON-RPC 伺服端初始化。
+-  JSON-RPC 用戶端使用遠端連線，用於實際運行環境。
+ - JSON-RPC 用戶端使用近端連線，用於開發階段偵錯。
 - 使用 JSON-RPC 方法進行業務邏輯操作（如 `Ping` 和 `Hello` 方法）。
 - 支援系統層級與表單層級的業務邏輯物件。
+- JSON-RPC 傳遞資料進行編碼(序列化+壓縮+加密)。
 
 ---
 
@@ -32,9 +35,65 @@
 3. **JsonRpcClient**:
    - 提供 Windows Forms 應用程式，展示如何使用 JSON-RPC 與伺服器互動。
    - 使用 Bee.Connect 套件的 Connector 執行 JSON-RPC 方法。
-	- 使用 Bee.Connect 套件的 ClientInfo 建立 Connector 執行 JSON-RPC 方法。
+	- 使用 Bee.UI.WinForms 套件的 ClientInfo 建立 Connector 執行 JSON-RPC 方法。
 
 ---
+
+步驟
+1.設置 System.Settings.xml 設定檔。
+2.在 Custom.Business 專案建立商業邏輯物件。
+3.在 Custom.Define 專案，建立商業邏輯方法的傳入參數及傳出結果類別。
+4.啟動 JsonRpcServer 專案，使用 jsonrpc.http 執行 JSON-RPC 方法，確認伺服端正常運行。
+5.啟動 JsonRpcClient 專案，使用迼端連線執行JSON-RPC 方法。
+6.啟動 JsonRpcClient 專案，使用近端連線執行JSON-RPC 方法。
+
+## 設置 System.Settings.xml 設定檔
+AllowedTypeNamespaces 設定 JSON 反序列化的命名空間的白名單
+ApiPayloadOptions 是設定編碼方式(序列化+壓縮+加密)
+BusinessObjectProvider 指定業務邏輯物件提供者，以建立 ProgID 對應的業務邏輯物件
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<SystemSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <CommonConfiguration>
+        <Version>1.0.0</Version>
+        <IsDebugMode>true</IsDebugMode>
+        <AllowedTypeNamespaces>Custom.Define</AllowedTypeNamespaces>
+        <ApiPayloadOptions>
+            <Serializer>messagepack</Serializer>
+            <Compressor>gzip</Compressor>
+            <Encryptor>aes256</Encryptor>
+        </ApiPayloadOptions>
+    </CommonConfiguration>
+    <BackendConfiguration>
+        <BusinessObjectProvider>Custom.Business.TBusinessObjectProvider, Custom.Business</BusinessObjectProvider>
+    </BackendConfiguration>
+</SystemSettings>
+```
+
+## 設置 System.Settings.xml 設定檔
+
+
+
+## 呼叫 JSON-RPC 方法的 JSON 格式
+
+method 的格式為 {ProgID}.{Method}
+"$type" 為 Method 傳入參數型別
+
+```json
+
+{
+  "jsonrpc": "2.0",
+  "method": "{ProgID}.{Method}",
+  "params": {
+    "value": {
+      "$type": "Custom.Define.THelloArgs, Custom.Define",
+      "userName": "Jeff"
+    }
+  },
+  "id": "e942952b-6450-412c-bb24-c6ab7c804789"
+}
+```
 
 ## 使用方式
 
