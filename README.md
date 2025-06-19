@@ -33,6 +33,7 @@
 4. **JsonRpcServer 專案**
    - 提供伺服端初始化與 API 註冊的擴充方法
    - 使用 `BackendExtensions` 設定 `DefinePath` 並初始化服務
+   - 包含 `ApiServiceController` 類別，作為 API 服務的控制器，繼承自 `TApiServiceController`，負責處理 JSON-RPC 請求並提供 API 端點
 
 5. **JsonRpcClient 專案**
    - Windows Forms 範例用戶端，示範如何透過 JSON-RPC 與伺服器互動
