@@ -7,14 +7,14 @@ namespace Custom.Business
     /// <summary>
     /// 員工的業務邏輯物件。
     /// </summary>
-    public class TEmployeeObject : TFormBusinessObject
+    public class TEmployeeBusinessObject : TFormBusinessObject
     {
         /// <summary>
         /// 建構函式。
         /// </summary>
         /// <param name="sessionID">連線識別。</param>
         /// <param name="progId">程式代碼。</param>
-        public TEmployeeObject(Guid sessionID, string progId) : base(sessionID, progId)
+        public TEmployeeBusinessObject(Guid sessionID, string progId) : base(sessionID, progId)
         {
         }
 

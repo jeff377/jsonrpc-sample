@@ -34,7 +34,7 @@ namespace Custom.Business
             switch (progId)
             {
                 case "Employee":  // 員工
-                    return new TEmployeeObject(accessToken, progId);
+                    return new TEmployeeBusinessObject(accessToken, progId);
                 default:
                     return new TFormBusinessObject(accessToken, progId);
             }
