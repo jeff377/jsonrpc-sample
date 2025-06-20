@@ -51,11 +51,11 @@ namespace JsonRpcClient
             SetConnectType(connectType, endpoint);
 
             // 系統層級 API 服務連接器
-            TSystemConnector connector;
+            TSystemApiConnector connector;
             if (connectType == EConnectType.Local)
-                connector = new TSystemConnector(Guid.Empty);  // 連端連線
+                connector = new TSystemApiConnector(Guid.Empty);  // 連端連線
             else
-                connector = new TSystemConnector(endpoint, Guid.Empty);
+                connector = new TSystemApiConnector(endpoint, Guid.Empty);
 
             // 執行系統層級業務邏輯物件的 Ping 方法
             var args = new TPingArgs();
@@ -86,11 +86,11 @@ namespace JsonRpcClient
             // 程式代碼 Employee 對應至 TEmployeeBusinessObject 業務邏輯物件
             string progId = "Employee";
             // 表單層級 API 服務連接器
-            TFormConnector connector;            
+            TFormApiConnector connector;            
             if (connectType == EConnectType.Local)
-                connector = new TFormConnector(Guid.Empty, progId);  // 連端連線
+                connector = new TFormApiConnector(Guid.Empty, progId);  // 連端連線
             else
-                connector = new TFormConnector(endpoint, Guid.Empty, progId);
+                connector = new TFormApiConnector(endpoint, Guid.Empty, progId);
 
             // 執行表單層級業務邏輯物件的 Hello 方法，即為 TEmployeeBusinessObject.Hello 方法
             var args = new THelloArgs() { UserName = "Jeff" }; 
@@ -150,12 +150,12 @@ namespace JsonRpcClient
         /// </summary>
         private void btnHello_Click(object sender, EventArgs e)
         {
-            var connecotr = ClientInfo.CreateFormConnector("Employee");
+            var connector = ClientInfo.CreateFormApiConnector("Employee");
             var args = new THelloArgs()
             {
                 UserName = "Jeff"
             };
-            var result = connecotr.Execute<THelloResult>("Hello", args);
+            var result = connector.Execute<THelloResult>("Hello", args);
             MessageBox.Show($"Message: {result.Message}");
         }
 
