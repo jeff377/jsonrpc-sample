@@ -6,7 +6,7 @@ namespace Custom.Define
 {
     [MessagePackObject]
     [Serializable]
-    public class THelloArgs : TBusinessArgs
+    public class HelloArgs : BusinessArgs
     {
         /// <summary>
         /// 用戶名稱。

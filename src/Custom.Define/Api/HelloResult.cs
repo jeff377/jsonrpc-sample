@@ -6,7 +6,7 @@ namespace Custom.Define
 {
     [MessagePackObject]
     [Serializable]
-    public class THelloResult : TBusinessResult
+    public class HelloResult : BusinessResult
     {
         /// <summary>
         /// 回傳訊息。

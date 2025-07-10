@@ -7,12 +7,12 @@ namespace Custom.Business
     /// <summary>
     /// 業務邏輯物件提供者。
     /// </summary>
-    public class TBusinessObjectProvider : IBusinessObjectProvider
+    public class BusinessObjectProvider : IBusinessObjectProvider
     {
         /// <summary>
         /// 建構函式。
         /// </summary>
-        public TBusinessObjectProvider()
+        public BusinessObjectProvider()
         { }
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace Custom.Business
         /// <param name="accessToken">存取令牌。</param>
         public ISystemBusinessObject CreateSystemBusinessObject(Guid accessToken)
         {
-            return new TSystemBusinessObject(accessToken);
+            return new SystemBusinessObject(accessToken);
         }
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace Custom.Business
             switch (progId)
             {
                 case "Employee":  // 員工
-                    return new TEmployeeBusinessObject(accessToken, progId);
+                    return new EmployeeBusinessObject(accessToken, progId);
                 default:
-                    return new TFormBusinessObject(accessToken, progId);
+                    return new FormBusinessObject(accessToken, progId);
             }
         }
     }

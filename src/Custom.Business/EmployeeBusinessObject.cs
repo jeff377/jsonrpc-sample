@@ -7,14 +7,14 @@ namespace Custom.Business
     /// <summary>
     /// 員工的業務邏輯物件。
     /// </summary>
-    public class TEmployeeBusinessObject : TFormBusinessObject
+    public class EmployeeBusinessObject : FormBusinessObject
     {
         /// <summary>
         /// 建構函式。
         /// </summary>
         /// <param name="sessionID">連線識別。</param>
         /// <param name="progId">程式代碼。</param>
-        public TEmployeeBusinessObject(Guid sessionID, string progId) : base(sessionID, progId)
+        public EmployeeBusinessObject(Guid sessionID, string progId) : base(sessionID, progId)
         {
         }
 
@@ -23,9 +23,9 @@ namespace Custom.Business
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public THelloResult Hello(THelloArgs args)
+        public HelloResult Hello(HelloArgs args)
         {
-            return new THelloResult()
+            return new HelloResult()
             {
                 Message = $"Hello, {args.UserName}"
             };

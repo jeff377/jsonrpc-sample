@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SystemSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<CommonConfiguration>
-		<Version>1.0.0</Version>
-		<IsDebugMode>true</IsDebugMode>
-		<AllowedTypeNamespaces>Custom.Define</AllowedTypeNamespaces>
-		<ApiPayloadOptions>
-			<Serializer>messagepack</Serializer>
-			<Compressor>gzip</Compressor>
-			<Encryptor>aes256</Encryptor>
-		</ApiPayloadOptions>
-	</CommonConfiguration>
-	<BackendConfiguration>
-		<BusinessObjectProvider>Custom.Business.TBusinessObjectProvider, Custom.Business</BusinessObjectProvider>
-	</BackendConfiguration>
-	<FrontendConfiguration />
-	<WebsiteConfiguration />
-	<BackgroundServiceConfiguration />
+  <CommonConfiguration>
+    <Version>1.0.0</Version>
+    <IsDebugMode>true</IsDebugMode>
+    <AllowedTypeNamespaces>Custom.Define</AllowedTypeNamespaces>
+    <ApiPayloadOptions>
+      <Serializer>messagepack</Serializer>
+      <Compressor>gzip</Compressor>
+      <Encryptor>aes-cbc-hmac</Encryptor>
+    </ApiPayloadOptions>
+  </CommonConfiguration>
+  <BackendConfiguration>
+    <BusinessObjectProvider>Custom.Business.TBusinessObjectProvider, Custom.Business</BusinessObjectProvider>
+    <SecurityKeySettings>
+      <MasterKeySource>
+        <Type>File</Type>
+        <Value>Master.key</Value>
+      </MasterKeySource>
+      <ApiEncryptionKey>EAAAAJXANLr0DdLO+Kjb9a7WY7NQAAAAQrUN+RtXtExMd9tbLJVi8p8ToIPacJs6pB7cVTLHbSga2++PJw7mFfnIHVg/jGqBALPocP8iUozQ5kCwR7c/YWgoNlS1a5TAaW3s+3l2G8TvT6GaHqHKlBptH5LyvpIRFtPjtkldSrT/Im5y/JxbLA==</ApiEncryptionKey>
+      <CookieEncryptionKey>EAAAAHiXRF2clM26w4Dchuls7wlQAAAAdljv9e8mvF3+auxxKuF/feXy0emHHWz6WcrlOMImK3Nn8uMoOeIzf82NaSHs9X+sWg9xLTVnwpOs5oPWImI0xb4lGulPl2Ls5gjAzvrDLh6iOca6LibLkiF4cRdxHHQD305BFci/e9PU7KVSlRl2cg==</CookieEncryptionKey>
+    </SecurityKeySettings>
+  </BackendConfiguration>
+  <FrontendConfiguration />
+  <WebsiteConfiguration />
+  <BackgroundServiceConfiguration />
 </SystemSettings>

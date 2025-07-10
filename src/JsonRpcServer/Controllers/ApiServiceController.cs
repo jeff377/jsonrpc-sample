@@ -1,5 +1,4 @@
-﻿using Bee.Api.AspNetCore;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace ApiService.Controllers
 {
@@ -9,7 +8,7 @@ namespace ApiService.Controllers
     [ApiController]
     [Route("api")]
     [Produces("application/json")]
-    public class ApiServiceController : TApiServiceController
+    public class ApiServiceController : Bee.Api.AspNetCore.ApiServiceController
     {
     }
 

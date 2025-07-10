@@ -19,19 +19,19 @@ namespace JsonRpcClient
         /// </summary>
         /// <param name="connectType">服務連線方式。</param>
         /// <param name="endpoint">服端端點，遠端連線為網址，近端連線為本地路徑。</param>
-        private void SetConnectType(EConnectType connectType, string endpoint)
+        private void SetConnectType(ConnectType connectType, string endpoint)
         {
-            if (connectType == EConnectType.Local)
+            if (connectType == ConnectType.Local)
             {
                 // 設定近端連線相關屬性
-                FrontendInfo.ConnectType = EConnectType.Local;
+                FrontendInfo.ConnectType = ConnectType.Local;
                 FrontendInfo.Endpoint = string.Empty;
                 BackendInfo.DefinePath = endpoint;
             }
             else
             {
                 // 設定遠端連線相關屬性
-                FrontendInfo.ConnectType = EConnectType.Remote;
+                FrontendInfo.ConnectType = ConnectType.Remote;
                 FrontendInfo.Endpoint = endpoint;
                 BackendInfo.DefinePath = string.Empty;
             }
@@ -44,22 +44,22 @@ namespace JsonRpcClient
         {
             // 判斷服務端點位置為本地路徑或網址，傳回對應的連線方式
             string endpoint = edtEndpoint.Text;
-            var validator = new TApiConnectValidator();
+            var validator = new ApiConnectValidator();
             var connectType = validator.Validate(endpoint);
 
             // 設置連線方式
             SetConnectType(connectType, endpoint);
 
             // 系統層級 API 服務連接器
-            TSystemApiConnector connector;
-            if (connectType == EConnectType.Local)
-                connector = new TSystemApiConnector(Guid.Empty);  // 連端連線
+            SystemApiConnector connector;
+            if (connectType == ConnectType.Local)
+                connector = new SystemApiConnector(Guid.Empty);  // 連端連線
             else
-                connector = new TSystemApiConnector(endpoint, Guid.Empty);
+                connector = new SystemApiConnector(endpoint, Guid.Empty);
 
             // 執行系統層級業務邏輯物件的 Ping 方法
-            var args = new TPingArgs();
-            var result = connector.Execute<TPingResult>(SystemActions.Ping, args, false);
+            var args = new PingArgs();
+            var result = connector.Execute<PingResult>(SystemActions.Ping, args, false);
             if (result.Status == "ok")
             {
                 MessageBox.Show($"Ping method executed successfully.\nVersion: {result.Version}\nServer Time: {result.ServerTime}");
@@ -77,7 +77,7 @@ namespace JsonRpcClient
         {
             // 判斷服務端點位置為本地路徑或網址，傳回對應的連線方式
             string endpoint = edtEndpoint.Text;
-            var validator = new TApiConnectValidator();
+            var validator = new ApiConnectValidator();
             var connectType = validator.Validate(endpoint);
 
             // 設置連線方式
@@ -86,15 +86,15 @@ namespace JsonRpcClient
             // 程式代碼 Employee 對應至 TEmployeeBusinessObject 業務邏輯物件
             string progId = "Employee";
             // 表單層級 API 服務連接器
-            TFormApiConnector connector;            
-            if (connectType == EConnectType.Local)
-                connector = new TFormApiConnector(Guid.Empty, progId);  // 連端連線
+            FormApiConnector connector;            
+            if (connectType == ConnectType.Local)
+                connector = new FormApiConnector(Guid.Empty, progId);  // 連端連線
             else
-                connector = new TFormApiConnector(endpoint, Guid.Empty, progId);
+                connector = new FormApiConnector(endpoint, Guid.Empty, progId);
 
             // 執行表單層級業務邏輯物件的 Hello 方法，即為 TEmployeeBusinessObject.Hello 方法
-            var args = new THelloArgs() { UserName = "Jeff" }; 
-            var result = connector.Execute<THelloResult>("Hello", args);
+            var args = new HelloArgs() { UserName = "Jeff" }; 
+            var result = connector.Execute<HelloResult>("Hello", args);
             MessageBox.Show($"Message: {result.Message}");
         }
 
@@ -107,10 +107,10 @@ namespace JsonRpcClient
             // 第一次會顯示連線設定介面，設置完成後會將 Endpoint 儲存於執行檔路徑下的 Client.Settings.xml
             // 若二次會由 Client.Settings.xml 取得 Endpoint，進行初始化
             // 若要重新設定連線，請呼叫 ShowConnect 方法
-            if (ClientInfo.Initialize(new TUIViewService(), ESupportedConnectTypes.Both, true))
+            if (ClientInfo.Initialize(new UIViewService(), SupportedConnectTypes.Both, true))
             {
                 // 若為近端遲線，需在用戶端模擬伺服端的初始化
-                if (FrontendInfo.ConnectType == EConnectType.Local)
+                if (FrontendInfo.ConnectType == ConnectType.Local)
                 {
                     // 系統設定初始化
                     var settings = ClientInfo.DefineAccess.GetSystemSettings();
@@ -142,20 +142,20 @@ namespace JsonRpcClient
                 MessageBox.Show("Please execute the Initialize method first.");
                 return;
             }
-            ClientInfo.UIViewService.ShowConnect();
+            ClientInfo.UIViewService.ShowApiConnect();
         }
 
         /// <summary>
-        /// 透過 ClientInfo 建立 TFormConnector， 執行 Hello 方法。
+        /// 透過 ClientInfo 建立 FormConnector， 執行 Hello 方法。
         /// </summary>
         private void btnHello_Click(object sender, EventArgs e)
         {
             var connector = ClientInfo.CreateFormApiConnector("Employee");
-            var args = new THelloArgs()
+            var args = new HelloArgs()
             {
                 UserName = "Jeff"
             };
-            var result = connector.Execute<THelloResult>("Hello", args);
+            var result = connector.Execute<HelloResult>("Hello", args);
             MessageBox.Show($"Message: {result.Message}");
         }
 
