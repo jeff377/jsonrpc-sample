@@ -107,7 +107,7 @@ namespace JsonRpcClient
             // 第一次會顯示連線設定介面，設置完成後會將 Endpoint 儲存於執行檔路徑下的 Client.Settings.xml
             // 若二次會由 Client.Settings.xml 取得 Endpoint，進行初始化
             // 若要重新設定連線，請呼叫 ShowConnect 方法
-            if (ClientInfo.Initialize(new UIViewService(), SupportedConnectTypes.Both, true))
+            if (ClientInfo.Initialize(new UIViewService(), SupportedConnectTypes.Both))
             {
                 // 若為近端遲線，需在用戶端模擬伺服端的初始化
                 if (FrontendInfo.ConnectType == ConnectType.Local)
