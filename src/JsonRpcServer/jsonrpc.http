@@ -14,7 +14,7 @@ X-Api-Key: {{apiKey}}
   "method": "System.Ping",
   "params": {
     "value": {
-      "$type": "Bee.Define.TPingArgs, Bee.Define",
+      "$type": "Bee.Define.PingArgs, Bee.Define",
       "clientName": "Connector",
       "traceId": "001"
     }
@@ -35,7 +35,7 @@ Authorization: {{accessToken}}
   "method": "Employee.Hello",
   "params": {
     "value": {
-      "$type": "Custom.Define.THelloArgs, Custom.Define",
+      "$type": "Custom.Define.HelloArgs, Custom.Define",
       "userName": "Jeff"
     }
   },
