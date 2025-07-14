@@ -1,6 +1,6 @@
 ﻿namespace JsonRpcClient
 {
-    partial class Form1
+    partial class frmMainForm
     {
         /// <summary>
         ///  Required designer variable.

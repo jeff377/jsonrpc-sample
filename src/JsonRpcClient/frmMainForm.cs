@@ -7,9 +7,9 @@ using Custom.Define;
 
 namespace JsonRpcClient
 {
-    public partial class Form1 : Form
+    public partial class frmMainForm : Form
     {
-        public Form1()
+        public frmMainForm()
         {
             InitializeComponent();
         }
