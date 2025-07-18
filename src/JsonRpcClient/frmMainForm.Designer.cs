@@ -44,9 +44,10 @@
             // 
             // btnInitialize
             // 
-            btnInitialize.Location = new Point(20, 47);
+            btnInitialize.Location = new Point(26, 60);
+            btnInitialize.Margin = new Padding(4);
             btnInitialize.Name = "btnInitialize";
-            btnInitialize.Size = new Size(100, 23);
+            btnInitialize.Size = new Size(129, 29);
             btnInitialize.TabIndex = 0;
             btnInitialize.Text = "Initialize";
             btnInitialize.UseVisualStyleBackColor = true;
@@ -54,9 +55,10 @@
             // 
             // btnConnector_Ping
             // 
-            btnConnector_Ping.Location = new Point(20, 80);
+            btnConnector_Ping.Location = new Point(26, 101);
+            btnConnector_Ping.Margin = new Padding(4);
             btnConnector_Ping.Name = "btnConnector_Ping";
-            btnConnector_Ping.Size = new Size(100, 23);
+            btnConnector_Ping.Size = new Size(129, 29);
             btnConnector_Ping.TabIndex = 1;
             btnConnector_Ping.Text = "Ping";
             btnConnector_Ping.UseVisualStyleBackColor = true;
@@ -64,9 +66,10 @@
             // 
             // btnShowConnect
             // 
-            btnShowConnect.Location = new Point(134, 47);
+            btnShowConnect.Location = new Point(172, 60);
+            btnShowConnect.Margin = new Padding(4);
             btnShowConnect.Name = "btnShowConnect";
-            btnShowConnect.Size = new Size(100, 23);
+            btnShowConnect.Size = new Size(129, 29);
             btnShowConnect.TabIndex = 2;
             btnShowConnect.Text = "ShowConnect";
             btnShowConnect.UseVisualStyleBackColor = true;
@@ -74,9 +77,10 @@
             // 
             // btnHello
             // 
-            btnHello.Location = new Point(250, 47);
+            btnHello.Location = new Point(321, 60);
+            btnHello.Margin = new Padding(4);
             btnHello.Name = "btnHello";
-            btnHello.Size = new Size(100, 23);
+            btnHello.Size = new Size(129, 29);
             btnHello.TabIndex = 3;
             btnHello.Text = "Hello";
             btnHello.UseVisualStyleBackColor = true;
@@ -89,9 +93,11 @@
             groupBox1.Controls.Add(edtEndpoint);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(btnConnector_Ping);
-            groupBox1.Location = new Point(12, 12);
+            groupBox1.Location = new Point(15, 15);
+            groupBox1.Margin = new Padding(4);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(497, 121);
+            groupBox1.Padding = new Padding(4);
+            groupBox1.Size = new Size(499, 153);
             groupBox1.TabIndex = 4;
             groupBox1.TabStop = false;
             groupBox1.Text = "Using Bee.Connect Package";
@@ -99,17 +105,19 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(85, 51);
+            label2.Location = new Point(109, 65);
+            label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(254, 15);
+            label2.Size = new Size(309, 19);
             label2.TabIndex = 5;
             label2.Text = "Note: Enter DefinePath for local connection.";
             // 
             // btnConnector_Hello
             // 
-            btnConnector_Hello.Location = new Point(134, 80);
+            btnConnector_Hello.Location = new Point(172, 101);
+            btnConnector_Hello.Margin = new Padding(4);
             btnConnector_Hello.Name = "btnConnector_Hello";
-            btnConnector_Hello.Size = new Size(100, 23);
+            btnConnector_Hello.Size = new Size(129, 29);
             btnConnector_Hello.TabIndex = 4;
             btnConnector_Hello.Text = "Hello";
             btnConnector_Hello.UseVisualStyleBackColor = true;
@@ -117,18 +125,20 @@
             // 
             // edtEndpoint
             // 
-            edtEndpoint.Location = new Point(85, 25);
+            edtEndpoint.Location = new Point(109, 32);
+            edtEndpoint.Margin = new Padding(4);
             edtEndpoint.Name = "edtEndpoint";
-            edtEndpoint.Size = new Size(391, 23);
+            edtEndpoint.Size = new Size(326, 27);
             edtEndpoint.TabIndex = 3;
             edtEndpoint.Text = "http://localhost:5000/api";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(20, 28);
+            label1.Location = new Point(26, 35);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(59, 15);
+            label1.Size = new Size(72, 19);
             label1.TabIndex = 2;
             label1.Text = "Endpoint";
             // 
@@ -137,22 +147,26 @@
             groupBox2.Controls.Add(btnHello);
             groupBox2.Controls.Add(btnInitialize);
             groupBox2.Controls.Add(btnShowConnect);
-            groupBox2.Location = new Point(12, 155);
+            groupBox2.Location = new Point(15, 196);
+            groupBox2.Margin = new Padding(4);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(497, 115);
+            groupBox2.Padding = new Padding(4);
+            groupBox2.Size = new Size(499, 146);
             groupBox2.TabIndex = 5;
             groupBox2.TabStop = false;
             groupBox2.Text = "Using Bee.UI.WinForms Package";
             // 
-            // Form1
+            // frmMainForm
             // 
-            this.AutoScaleDimensions = new SizeF(7F, 15F);
+            this.AutoScaleDimensions = new SizeF(9F, 19F);
             this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(523, 279);
+            this.ClientSize = new Size(879, 476);
             this.Controls.Add(groupBox2);
             this.Controls.Add(groupBox1);
-            this.Name = "Form1";
+            this.Margin = new Padding(4);
+            this.Name = "frmMainForm";
             this.Text = "JSON-RPC Client";
+            this.Load += this.frmMainForm_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);

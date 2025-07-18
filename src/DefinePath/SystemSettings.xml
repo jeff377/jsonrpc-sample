@@ -11,8 +11,8 @@
     </ApiPayloadOptions>
     <LogOptions>
       <ApiConnector>
-        <RawData>false</RawData>
-        <EncodedData>false</EncodedData>
+        <RawData>true</RawData>
+        <EncodedData>true</EncodedData>
       </ApiConnector>
       <DbAccess>
         <Level>Warning</Level>

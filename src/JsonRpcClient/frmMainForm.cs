@@ -1,4 +1,5 @@
 using Bee.Api.Core;
+using Bee.Base;
 using Bee.Connect;
 using Bee.Define;
 using Bee.UI.Core;
@@ -7,11 +8,27 @@ using Custom.Define;
 
 namespace JsonRpcClient
 {
-    public partial class frmMainForm : Form
+    /// <summary>
+    /// Main form for the JSON-RPC client application.
+    /// </summary>
+    public partial class frmMainForm : Form, ILogDisplayForm
     {
         public frmMainForm()
         {
             InitializeComponent();
+        }
+
+        private void frmMainForm_Load(object sender, EventArgs e)
+        {
+            SysInfo.LogWriter = new FormLogWriter(this);
+        }
+
+        /// <summary>
+        /// display a log entry in the form.
+        /// </summary>
+        public void AppendLog(LogEntry entry)
+        {
+            string message = $"{entry.Timestamp:yyyy-MM-dd HH:mm:ss} [{entry.EntryType}] {entry.Message}";
         }
 
         /// <summary>
@@ -50,12 +67,25 @@ namespace JsonRpcClient
             // 設置連線方式
             SetConnectType(connectType, endpoint);
 
+            // 若為近端連線，需在用戶端模擬伺服端的初始化
+            if (connectType == ConnectType.Local)
+            {
+                // 系統設定初始化
+                var settings = ClientInfo.DefineAccess.GetSystemSettings();
+                settings.Initialize();
+                // 初始化 API 服務選項，設定序列化器、壓縮器與加密器的實作
+                ApiServiceOptions.Initialize(settings.CommonConfiguration.ApiPayloadOptions);
+            }
+
             // 系統層級 API 服務連接器
             SystemApiConnector connector;
             if (connectType == ConnectType.Local)
                 connector = new SystemApiConnector(Guid.Empty);  // 連端連線
             else
                 connector = new SystemApiConnector(endpoint, Guid.Empty);
+
+
+
 
             // 執行系統層級業務邏輯物件的 Ping 方法
             var args = new PingArgs();
@@ -86,14 +116,14 @@ namespace JsonRpcClient
             // 程式代碼 Employee 對應至 TEmployeeBusinessObject 業務邏輯物件
             string progId = "Employee";
             // 表單層級 API 服務連接器
-            FormApiConnector connector;            
+            FormApiConnector connector;
             if (connectType == ConnectType.Local)
                 connector = new FormApiConnector(Guid.Empty, progId);  // 連端連線
             else
                 connector = new FormApiConnector(endpoint, Guid.Empty, progId);
 
             // 執行表單層級業務邏輯物件的 Hello 方法，即為 TEmployeeBusinessObject.Hello 方法
-            var args = new HelloArgs() { UserName = "Jeff" }; 
+            var args = new HelloArgs() { UserName = "Jeff" };
             var result = connector.Execute<HelloResult>("Hello", args);
             MessageBox.Show($"Message: {result.Message}");
         }
@@ -158,7 +188,6 @@ namespace JsonRpcClient
             var result = connector.Execute<HelloResult>("Hello", args);
             MessageBox.Show($"Message: {result.Message}");
         }
-
 
 
     }
