@@ -29,6 +29,7 @@ namespace JsonRpcClient
         public void AppendLog(LogEntry entry)
         {
             string message = $"{entry.Timestamp:yyyy-MM-dd HH:mm:ss} [{entry.EntryType}] {entry.Message}";
+            edtLog.AppendText(message + Environment.NewLine);
         }
 
         /// <summary>
@@ -75,6 +76,8 @@ namespace JsonRpcClient
                 settings.Initialize();
                 // 初始化 API 服務選項，設定序列化器、壓縮器與加密器的實作
                 ApiServiceOptions.Initialize(settings.CommonConfiguration.ApiPayloadOptions);
+                // 設定前端 API 金鑰
+                FrontendInfo.ApiEncryptionKey = BackendInfo.ApiEncryptionKey;
             }
 
             // 系統層級 API 服務連接器
@@ -83,8 +86,6 @@ namespace JsonRpcClient
                 connector = new SystemApiConnector(Guid.Empty);  // 連端連線
             else
                 connector = new SystemApiConnector(endpoint, Guid.Empty);
-
-
 
 
             // 執行系統層級業務邏輯物件的 Ping 方法
@@ -115,12 +116,13 @@ namespace JsonRpcClient
 
             // 程式代碼 Employee 對應至 TEmployeeBusinessObject 業務邏輯物件
             string progId = "Employee";
+            Guid accessToken = Guid.NewGuid();
             // 表單層級 API 服務連接器
             FormApiConnector connector;
             if (connectType == ConnectType.Local)
-                connector = new FormApiConnector(Guid.Empty, progId);  // 連端連線
+                connector = new FormApiConnector(accessToken, progId);  // 連端連線
             else
-                connector = new FormApiConnector(endpoint, Guid.Empty, progId);
+                connector = new FormApiConnector(endpoint, accessToken, progId);
 
             // 執行表單層級業務邏輯物件的 Hello 方法，即為 TEmployeeBusinessObject.Hello 方法
             var args = new HelloArgs() { UserName = "Jeff" };
@@ -133,33 +135,7 @@ namespace JsonRpcClient
         /// </summary>
         private void btnInitialize_Click(object sender, EventArgs e)
         {
-            // 用戶端初始化，內部呼叫 Ping 方法驗證伺服端是否能正常連線           
-            // 第一次會顯示連線設定介面，設置完成後會將 Endpoint 儲存於執行檔路徑下的 Client.Settings.xml
-            // 若二次會由 Client.Settings.xml 取得 Endpoint，進行初始化
-            // 若要重新設定連線，請呼叫 ShowConnect 方法
-            if (ClientInfo.Initialize(new UIViewService(), SupportedConnectTypes.Both))
-            {
-                // 若為近端遲線，需在用戶端模擬伺服端的初始化
-                if (FrontendInfo.ConnectType == ConnectType.Local)
-                {
-                    // 系統設定初始化
-                    var settings = ClientInfo.DefineAccess.GetSystemSettings();
-                    settings.Initialize();
-                    // 初始化 API 服務選項，設定序列化器、壓縮器與加密器的實作
-                    ApiServiceOptions.Initialize(settings.CommonConfiguration.ApiPayloadOptions);
-                    // 顯示近端連線設定的 DefinePath 路徑
-                    MessageBox.Show($"ConnectType: {FrontendInfo.ConnectType}\nDefinePath: {BackendInfo.DefinePath}");
-                }
-                else
-                {
-                    // 顯示遠端端連線設定的 Endpoint
-                    MessageBox.Show($"ConnectType: {FrontendInfo.ConnectType}\nEndpoint: {FrontendInfo.Endpoint}");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Initialization failed.");
-            }
+
         }
 
         /// <summary>
@@ -167,12 +143,7 @@ namespace JsonRpcClient
         /// </summary>
         private void btnShowConnect_Click(object sender, EventArgs e)
         {
-            if (ClientInfo.UIViewService == null)
-            {
-                MessageBox.Show("Please execute the Initialize method first.");
-                return;
-            }
-            ClientInfo.UIViewService.ShowApiConnect();
+
         }
 
         /// <summary>
@@ -180,13 +151,7 @@ namespace JsonRpcClient
         /// </summary>
         private void btnHello_Click(object sender, EventArgs e)
         {
-            var connector = ClientInfo.CreateFormApiConnector("Employee");
-            var args = new HelloArgs()
-            {
-                UserName = "Jeff"
-            };
-            var result = connector.Execute<HelloResult>("Hello", args);
-            MessageBox.Show($"Message: {result.Message}");
+
         }
 
 
