@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bee.UI.WinForms" Version="3.1.4" />
+    <PackageReference Include="Bee.UI.WinForms" Version="3.1.6" />
   </ItemGroup>
 
   <ItemGroup>
