@@ -1,6 +1,7 @@
 ﻿using System;
 using Custom.Define;
 using Bee.Business;
+using Bee.Define;
 
 namespace Custom.Business
 {
@@ -23,6 +24,7 @@ namespace Custom.Business
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
+        [ApiAccessControl(ApiProtectionLevel.Public)]
         public HelloResult Hello(HelloArgs args)
         {
             return new HelloResult()

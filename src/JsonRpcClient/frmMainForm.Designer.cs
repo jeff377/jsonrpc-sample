@@ -28,24 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btnConnector_Ping = new Button();
+            btnInitialize = new Button();
             label2 = new Label();
-            btnConnector_Hello = new Button();
+            btnHello = new Button();
             edtEndpoint = new TextBox();
             label1 = new Label();
             edtLog = new TextBox();
+            btnLogin = new Button();
             this.SuspendLayout();
             // 
-            // btnConnector_Ping
+            // btnInitialize
             // 
-            btnConnector_Ping.Location = new Point(15, 89);
-            btnConnector_Ping.Margin = new Padding(4, 4, 4, 4);
-            btnConnector_Ping.Name = "btnConnector_Ping";
-            btnConnector_Ping.Size = new Size(129, 29);
-            btnConnector_Ping.TabIndex = 1;
-            btnConnector_Ping.Text = "Ping";
-            btnConnector_Ping.UseVisualStyleBackColor = true;
-            btnConnector_Ping.Click += this.btnConnector_Ping_Click;
+            btnInitialize.Location = new Point(15, 89);
+            btnInitialize.Margin = new Padding(4);
+            btnInitialize.Name = "btnInitialize";
+            btnInitialize.Size = new Size(129, 29);
+            btnInitialize.TabIndex = 1;
+            btnInitialize.Text = "Initialize";
+            btnInitialize.UseVisualStyleBackColor = true;
+            btnInitialize.Click += this.btnInitialize_Click;
             // 
             // label2
             // 
@@ -57,21 +58,21 @@
             label2.TabIndex = 5;
             label2.Text = "Note: Enter DefinePath for local connection.";
             // 
-            // btnConnector_Hello
+            // btnHello
             // 
-            btnConnector_Hello.Location = new Point(15, 125);
-            btnConnector_Hello.Margin = new Padding(4, 4, 4, 4);
-            btnConnector_Hello.Name = "btnConnector_Hello";
-            btnConnector_Hello.Size = new Size(129, 29);
-            btnConnector_Hello.TabIndex = 4;
-            btnConnector_Hello.Text = "Hello";
-            btnConnector_Hello.UseVisualStyleBackColor = true;
-            btnConnector_Hello.Click += this.btnConnector_Hello_Click;
+            btnHello.Location = new Point(13, 163);
+            btnHello.Margin = new Padding(4);
+            btnHello.Name = "btnHello";
+            btnHello.Size = new Size(129, 29);
+            btnHello.TabIndex = 4;
+            btnHello.Text = "Hello";
+            btnHello.UseVisualStyleBackColor = true;
+            btnHello.Click += this.btnHello_Click;
             // 
             // edtEndpoint
             // 
             edtEndpoint.Location = new Point(99, 8);
-            edtEndpoint.Margin = new Padding(4, 4, 4, 4);
+            edtEndpoint.Margin = new Padding(4);
             edtEndpoint.Name = "edtEndpoint";
             edtEndpoint.Size = new Size(325, 27);
             edtEndpoint.TabIndex = 3;
@@ -90,25 +91,37 @@
             // edtLog
             // 
             edtLog.Location = new Point(451, 15);
-            edtLog.Margin = new Padding(4, 4, 4, 4);
+            edtLog.Margin = new Padding(4);
             edtLog.Multiline = true;
             edtLog.Name = "edtLog";
             edtLog.ScrollBars = ScrollBars.Both;
             edtLog.Size = new Size(607, 445);
             edtLog.TabIndex = 6;
             // 
+            // btnLogin
+            // 
+            btnLogin.Location = new Point(13, 126);
+            btnLogin.Margin = new Padding(4);
+            btnLogin.Name = "btnLogin";
+            btnLogin.Size = new Size(129, 29);
+            btnLogin.TabIndex = 7;
+            btnLogin.Text = "Login";
+            btnLogin.UseVisualStyleBackColor = true;
+            btnLogin.Click += this.btnLogin_Click;
+            // 
             // frmMainForm
             // 
             this.AutoScaleDimensions = new SizeF(9F, 19F);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.ClientSize = new Size(1075, 504);
+            this.Controls.Add(btnLogin);
             this.Controls.Add(edtLog);
-            this.Controls.Add(btnConnector_Hello);
+            this.Controls.Add(btnHello);
             this.Controls.Add(label2);
-            this.Controls.Add(btnConnector_Ping);
+            this.Controls.Add(btnInitialize);
             this.Controls.Add(label1);
             this.Controls.Add(edtEndpoint);
-            this.Margin = new Padding(4, 4, 4, 4);
+            this.Margin = new Padding(4);
             this.Name = "frmMainForm";
             this.Text = "JSON-RPC Client";
             this.Load += this.frmMainForm_Load;
@@ -117,11 +130,12 @@
         }
 
         #endregion
-        private Button btnConnector_Ping;
+        private Button btnInitialize;
         private TextBox edtEndpoint;
         private Label label1;
-        private Button btnConnector_Hello;
+        private Button btnHello;
         private Label label2;
         private TextBox edtLog;
+        private Button btnLogin;
     }
 }
