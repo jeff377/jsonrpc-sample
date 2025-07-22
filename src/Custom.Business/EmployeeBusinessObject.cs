@@ -6,21 +6,21 @@ using Bee.Define;
 namespace Custom.Business
 {
     /// <summary>
-    /// 員工的業務邏輯物件。
+    /// Business logic object for Employee.
     /// </summary>
     public class EmployeeBusinessObject : FormBusinessObject
     {
         /// <summary>
-        /// 建構函式。
+        /// Constructor.
         /// </summary>
-        /// <param name="sessionID">連線識別。</param>
-        /// <param name="progId">程式代碼。</param>
+        /// <param name="sessionID">Session ID.</param>
+        /// <param name="progId">Program ID.</param>
         public EmployeeBusinessObject(Guid sessionID, string progId) : base(sessionID, progId)
         {
         }
 
         /// <summary>
-        /// Hello 測試方法。
+        /// Hello test method.
         /// </summary>
         [ApiAccessControl(ApiProtectionLevel.Public)]
         public HelloResult Hello(HelloArgs args)

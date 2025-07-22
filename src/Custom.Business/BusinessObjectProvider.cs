@@ -5,35 +5,35 @@ using Bee.Define;
 namespace Custom.Business
 {
     /// <summary>
-    /// 業務邏輯物件提供者。
+    /// Provider of business logic objects.
     /// </summary>
     public class BusinessObjectProvider : IBusinessObjectProvider
     {
         /// <summary>
-        /// 建構函式。
+        /// Constructor。
         /// </summary>
         public BusinessObjectProvider()
         { }
 
         /// <summary>
-        /// 建立系統層級業務邏輯物件。
+        /// Creates a system-level business logic object.
         /// </summary>
-        /// <param name="accessToken">存取令牌。</param>
+        /// <param name="accessToken">Access token.</param>
         public ISystemBusinessObject CreateSystemBusinessObject(Guid accessToken)
         {
             return new SystemBusinessObject(accessToken);
         }
 
         /// <summary>
-        /// 建立表單層級業務邏輯物件。
+        /// Creates a form-level business logic object.
         /// </summary>
-        /// <param name="accessToken">存取令牌。</param>
-        /// <param name="progId">程式代碼。</param>
+        /// <param name="accessToken">Access token.</param>
+        /// <param name="progId">Program ID.</param>
         public IFormBusinessObject CreateFormBusinessObject(Guid accessToken, string progId)
         {
             switch (progId)
             {
-                case "Employee":  // 員工
+                case "Employee": 
                     return new EmployeeBusinessObject(accessToken, progId);
                 default:
                     return new FormBusinessObject(accessToken, progId);
