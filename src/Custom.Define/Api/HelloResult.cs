@@ -11,7 +11,7 @@ namespace Custom.Define
         /// <summary>
         /// 回傳訊息。
         /// </summary>
-        [Key(1)]
+        [Key(100)]
         public string Message { get; set; } = string.Empty;
     }
 }

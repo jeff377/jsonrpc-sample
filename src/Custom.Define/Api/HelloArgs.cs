@@ -11,7 +11,7 @@ namespace Custom.Define
         /// <summary>
         /// 用戶名稱。
         /// </summary>
-        [Key(1)]
+        [Key(100)]
         public string UserName { get; set; } = string.Empty;
     }
 }

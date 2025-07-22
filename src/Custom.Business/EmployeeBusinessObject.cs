@@ -22,8 +22,6 @@ namespace Custom.Business
         /// <summary>
         /// Hello 測試方法。
         /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
         [ApiAccessControl(ApiProtectionLevel.Public)]
         public HelloResult Hello(HelloArgs args)
         {

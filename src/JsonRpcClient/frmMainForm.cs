@@ -1,9 +1,7 @@
-using Bee.Api.Core;
 using Bee.Base;
 using Bee.Cache;
 using Bee.Connect;
 using Bee.Define;
-using Bee.UI.Core;
 using Bee.UI.WinForms;
 using Custom.Define;
 
@@ -24,9 +22,16 @@ namespace JsonRpcClient
         /// </summary>
         private string Endpoint { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Load event handler for the main form.
+        /// </summary>
         private void frmMainForm_Load(object sender, EventArgs e)
         {
             SysInfo.LogWriter = new FormLogWriter(this);
+            SysInfo.LogOptions = new LogOptions()
+            {
+                ApiConnector = new ApiConnectorLogOptions(true, true)
+            };
         }
 
         /// <summary>
@@ -34,7 +39,8 @@ namespace JsonRpcClient
         /// </summary>
         public void AppendLog(LogEntry entry)
         {
-            string message = $"{entry.Timestamp:yyyy-MM-dd HH:mm:ss}\n{entry.Message}";
+            string message = $"{entry.Timestamp:yyyy-MM-dd HH:mm:ss}\r\n{entry.Message}\r\n" +
+                                            "-------------------------------------------------------------------------\r\n";
             edtLog.AppendText(message + Environment.NewLine);
         }
 
@@ -43,102 +49,121 @@ namespace JsonRpcClient
         /// </summary>
         private void btnInitialize_Click(object sender, EventArgs e)
         {
-            // 判斷服務端點位置為本地路徑或網址，傳回對應的連線方式
-            string endpoint = edtEndpoint.Text;
-            var validator = new ApiConnectValidator();
-            var connectType = validator.Validate(endpoint);
-
-            // 設置連線方式
-            SetConnectType(connectType, endpoint);
-
-            // 初始化 API 服務選項，設定序列化器、壓縮器與加密器的實作
-            var connector = CreateSystemApiConnector();
-            connector.Initialize();
-
-            MessageBox.Show("系統設定初始化完成。");
-        }
-
-        private void btnLogin_Click(object sender, EventArgs e)
-        {
-            // 產生 RSA 對稱金鑰
-            RsaCryptor.GenerateRsaKeyPair(out var publicKeyXml, out var privateKeyXml);
-
-            var connector = CreateSystemApiConnector();
-            var args = new LoginArgs()
+            edtLog.Text = string.Empty;
+            try
             {
-                UserId = "jeff",
-                Password = "1234",
-                ClientPublicKey = publicKeyXml
-            };
-            var result = connector.Execute<LoginResult>("Login", args, PayloadFormat.Encoded);
-            // 用私鑰解密 EncryptedSessionKey
-            string sessionKey = RsaCryptor.DecryptWithPrivateKey(result.ApiEncryptionKey, privateKeyXml);
-            FrontendInfo.ApiEncryptionKey = Convert.FromBase64String(sessionKey); ;
+                // Determine whether the endpoint is a local path or URL, and return the corresponding connection type
+                string endpoint = edtEndpoint.Text;
+                var validator = new ApiConnectValidator();
+                var connectType = validator.Validate(endpoint);
+
+                // Set the connection type
+                SetConnectType(connectType, endpoint);
+
+                // Retrieve general parameters and environment settings, and initialize the system
+                var connector = CreateSystemApiConnector();
+                connector.Initialize();
+
+                MessageBox.Show("Initialization complete.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
         }
 
         /// <summary>
-        /// 設置連線方式，連線設定時使用。
+        /// Login to the system.
         /// </summary>
-        /// <param name="connectType">服務連線方式。</param>
-        /// <param name="endpoint">服端端點，遠端連線為網址，近端連線為本地路徑。</param>
+        private void btnLogin_Click(object sender, EventArgs e)
+        {
+            edtLog.Text = string.Empty;
+            try
+            {
+                // Log in to the system; no real credential validation here, for demonstration purposes only
+                var connector = CreateSystemApiConnector();
+                connector.Login("jeff", "1234");
+                MessageBox.Show($"AccessToken : {FrontendInfo.AccessToken}\nApiEncryptionKey : {Convert.ToBase64String(FrontendInfo.ApiEncryptionKey)}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// execute a simple "Hello" function on the server.
+        /// </summary>
+        private void btnHello_Click(object sender, EventArgs e)
+        {
+            edtLog.Text = string.Empty;
+
+            if (FrontendInfo.AccessToken == Guid.Empty)
+            {
+                MessageBox.Show("Please login first.");
+                return;
+            }
+
+            try
+            {
+                // Create a form-level API connector. ProgId = "Employee" corresponds to the TEmployeeBusinessObject logic class.
+                var connector = CreateFormApiConnector("Employee");
+
+                // Execute the Hello method of the form-level business logic object, which maps to TEmployeeBusinessObject.Hello
+                var args = new HelloArgs() { UserName = "Jeff" };
+                var result = connector.Execute<HelloResult>("Hello", args);
+                MessageBox.Show($"Message: {result.Message}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+
+        }
+
+        /// <summary>
+        /// Set the connection type. Used during initialization.
+        /// </summary>
+        /// <param name="connectType">Connection type for the service.</param>
+        /// <param name="endpoint">Service endpoint. URL for remote, local path for local mode.</param>
         private void SetConnectType(ConnectType connectType, string endpoint)
         {
             Endpoint = endpoint;
+
+            // Set static connection information
+            ConnectFunc.SetConnectType(connectType, endpoint);
+
+            // If it is a local connection, simulate server initialization on the client
             if (connectType == ConnectType.Local)
             {
-                // 設定近端連線相關屬性
-                FrontendInfo.ConnectType = ConnectType.Local;
-                FrontendInfo.Endpoint = string.Empty;
-                BackendInfo.DefinePath = endpoint;
-
-                // 若為近端連線，需在用戶端模擬伺服端的初始化
                 var settings = CacheFunc.GetSystemSettings();
                 settings.Initialize();
-                // 設定前端 API 金鑰
-                FrontendInfo.ApiEncryptionKey = BackendInfo.ApiEncryptionKey;
-            }
-            else
-            {
-                // 設定遠端連線相關屬性
-                FrontendInfo.ConnectType = ConnectType.Remote;
-                FrontendInfo.Endpoint = endpoint;
-                BackendInfo.DefinePath = string.Empty;
             }
         }
 
         /// <summary>
-        /// 建立系統層級 API 服務連接器。 
+        /// Create a system-level API connector.
         /// </summary>
         private SystemApiConnector CreateSystemApiConnector()
         {
             if (FrontendInfo.ConnectType == ConnectType.Local)
-                return new SystemApiConnector(Guid.Empty);  // 連端連線
+                return new SystemApiConnector(Guid.Empty);
             else
                 return new SystemApiConnector(Endpoint, Guid.Empty);
         }
 
         /// <summary>
-        /// 建立表單層級 API 服務連接器。
+        /// Create a form-level API connector.
         /// </summary>
-        /// <param name="progId">程式代碼。</param>
+        /// <param name="progId">Program ID used to identify the function or form.</param>
         private FormApiConnector CreateFormApiConnector(string progId)
         {
             Guid accessToken = Guid.NewGuid();
             if (FrontendInfo.ConnectType == ConnectType.Local)
-                return new FormApiConnector(accessToken, progId);  // 連端連線
+                return new FormApiConnector(accessToken, progId);
             else
                 return new FormApiConnector(Endpoint, accessToken, progId);
         }
 
-        private void btnHello_Click(object sender, EventArgs e)
-        {
-            // 建立表單層級連接單，ProgId=Employee 對應至 TEmployeeBusinessObject 業務邏輯物件
-            var connector = CreateFormApiConnector("Employee");
-
-            // 執行表單層級業務邏輯物件的 Hello 方法，即為 TEmployeeBusinessObject.Hello 方法
-            var args = new HelloArgs() { UserName = "Jeff" };
-            var result = connector.Execute<HelloResult>("Hello", args);
-            MessageBox.Show($"Message: {result.Message}");
-        }
     }
 }
