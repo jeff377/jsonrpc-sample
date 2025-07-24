@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Bee.Base;
 using Bee.Cache;
 using Bee.Connect;
@@ -47,7 +48,7 @@ namespace JsonRpcClient
         /// <summary>
         /// Initialize the system settings and API service options.
         /// </summary>
-        private void btnInitialize_Click(object sender, EventArgs e)
+        private async void btnInitialize_Click(object sender, EventArgs e)
         {
             edtLog.Text = string.Empty;
             try
@@ -62,7 +63,7 @@ namespace JsonRpcClient
 
                 // Retrieve general parameters and environment settings, and initialize the system
                 var connector = CreateSystemApiConnector();
-                connector.Initialize();
+                await connector.InitializeAsync();
 
                 MessageBox.Show("Initialization complete.");
             }
@@ -75,14 +76,14 @@ namespace JsonRpcClient
         /// <summary>
         /// Login to the system.
         /// </summary>
-        private void btnLogin_Click(object sender, EventArgs e)
+        private async void btnLogin_Click(object sender, EventArgs e)
         {
             edtLog.Text = string.Empty;
             try
             {
                 // Log in to the system; no real credential validation here, for demonstration purposes only
                 var connector = CreateSystemApiConnector();
-                connector.Login("jeff", "1234");
+                await connector.LoginAsync("jeff", "1234");
                 MessageBox.Show($"AccessToken : {FrontendInfo.AccessToken}\nApiEncryptionKey : {Convert.ToBase64String(FrontendInfo.ApiEncryptionKey)}");
             }
             catch (Exception ex)
@@ -94,7 +95,7 @@ namespace JsonRpcClient
         /// <summary>
         /// execute a simple "Hello" function on the server.
         /// </summary>
-        private void btnHello_Click(object sender, EventArgs e)
+        private async void btnHello_Click(object sender, EventArgs e)
         {
             edtLog.Text = string.Empty;
 
@@ -111,7 +112,7 @@ namespace JsonRpcClient
 
                 // Execute the Hello method of the form-level business logic object, which maps to TEmployeeBusinessObject.Hello
                 var args = new HelloArgs() { UserName = "Jeff" };
-                var result = connector.Execute<HelloResult>("Hello", args);
+                var result = await connector.ExecuteAsync<HelloResult>("Hello", args);
                 MessageBox.Show($"Message: {result.Message}");
             }
             catch (Exception ex)
