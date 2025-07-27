@@ -148,9 +148,9 @@ namespace JsonRpcClient
         private SystemApiConnector CreateSystemApiConnector()
         {
             if (FrontendInfo.ConnectType == ConnectType.Local)
-                return new SystemApiConnector(Guid.Empty);
+                return new SystemApiConnector(FrontendInfo.AccessToken);
             else
-                return new SystemApiConnector(Endpoint, Guid.Empty);
+                return new SystemApiConnector(Endpoint, FrontendInfo.AccessToken);
         }
 
         /// <summary>
@@ -159,11 +159,10 @@ namespace JsonRpcClient
         /// <param name="progId">Program ID used to identify the function or form.</param>
         private FormApiConnector CreateFormApiConnector(string progId)
         {
-            Guid accessToken = Guid.NewGuid();
             if (FrontendInfo.ConnectType == ConnectType.Local)
-                return new FormApiConnector(accessToken, progId);
+                return new FormApiConnector(FrontendInfo.AccessToken, progId);
             else
-                return new FormApiConnector(Endpoint, accessToken, progId);
+                return new FormApiConnector(Endpoint, FrontendInfo.AccessToken, progId);
         }
 
     }
