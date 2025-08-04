@@ -22,6 +22,7 @@
     </LogOptions>
   </CommonConfiguration>
   <BackendConfiguration>
+    <ApiEncryptionKeyProvider>Bee.Business.DynamicApiEncryptionKeyProvider, Bee.Business</ApiEncryptionKeyProvider>
     <BusinessObjectProvider>Custom.Business.BusinessObjectProvider, Custom.Business</BusinessObjectProvider>
     <SecurityKeySettings>
       <MasterKeySource>
