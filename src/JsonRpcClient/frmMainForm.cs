@@ -99,6 +99,42 @@ namespace JsonRpcClient
         /// </summary>
         private async void btnHello_Click(object sender, EventArgs e)
         {
+            await CallEmployeeHelloAsync("Hello", PayloadFormat.Plain);
+        }
+
+        /// <summary>
+        /// Encoded request ¡X remote call must be serialized and compressed.
+        /// Requires login authentication.
+        /// </summary>
+        private async void btnHelloEncoded_Click(object sender, EventArgs e)
+        {
+            await CallEmployeeHelloAsync("HelloEncoded", PayloadFormat.Encoded);
+        }
+
+        /// <summary>
+        /// Encrypted request ¡X remote call must be serialized, compressed, and encrypted.
+        /// Requires login authentication.
+        /// </summary>
+        private async void btnHelloEncrypted_Click(object sender, EventArgs e)
+        {
+            await CallEmployeeHelloAsync("HelloEncrypted", PayloadFormat.Encrypted);
+        }
+
+        /// <summary>
+        /// Local only ¡X can only be invoked from local server (no remote API access).
+        /// </summary>
+        private async void btnHelloLocal_Click(object sender, EventArgs e)
+        {
+            await CallEmployeeHelloAsync("HelloLocal", PayloadFormat.Plain);
+        }
+
+        /// <summary>
+        /// Calls the specified Hello test method of the Employee BusinessObject.
+        /// </summary>
+        /// <param name="method">Hello method name, e.g., "Hello" or "HelloEncoded".</param>
+        /// <param name="format">Payload format, e.g., PayloadFormat.Plain or PayloadFormat.Encoded.</param>
+        private async Task CallEmployeeHelloAsync(string method, PayloadFormat format)
+        {
             edtLog.Text = string.Empty;
             if (!ValidateInitialize()) { return; }
 
@@ -106,17 +142,15 @@ namespace JsonRpcClient
             {
                 // Create a form-level API connector. ProgId = "Employee" corresponds to the TEmployeeBusinessObject logic class.
                 var connector = CreateFormApiConnector("Employee");
+                var args = new HelloArgs { UserName = "Jeff" };
 
-                // Execute the Hello method of the form-level business logic object, which maps to TEmployeeBusinessObject.Hello
-                var args = new HelloArgs() { UserName = "Jeff" };
-                var result = await connector.ExecuteAsync<HelloResult>("Hello", args, PayloadFormat.Plain);
+                var result = await connector.ExecuteAsync<HelloResult>(method, args, format);
                 MessageBox.Show($"Message: {result.Message}");
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}");
             }
-
         }
 
         /// <summary>
@@ -200,6 +234,7 @@ namespace JsonRpcClient
             else
                 return new FormApiConnector(_endpoint, FrontendInfo.AccessToken, progId);
         }
+
 
     }
 }
