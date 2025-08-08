@@ -20,14 +20,52 @@ namespace Custom.Business
         }
 
         /// <summary>
-        /// Hello test method.
+        /// Public hello test method (no login, no encoding/encryption).
         /// </summary>
-        [ApiAccessControl(ApiProtectionLevel.Public)]
+        [ApiAccessControl(ApiProtectionLevel.Public, ApiAccessRequirement.Anonymous)]
         public HelloResult Hello(HelloArgs args)
         {
             return new HelloResult()
             {
                 Message = $"Hello, {args.UserName}"
+            };
+        }
+
+        /// <summary>
+        /// Encoded request — remote call must be serialized and compressed.
+        /// Requires login authentication.
+        /// </summary>
+        [ApiAccessControl(ApiProtectionLevel.Encoded, ApiAccessRequirement.Authenticated)]
+        public HelloResult HelloEncoded(HelloArgs args)
+        {
+            return new HelloResult()
+            {
+                Message = $"[Encoded & Auth] Hello, {args.UserName}"
+            };
+        }
+
+        /// <summary>
+        /// Encrypted request — remote call must be serialized, compressed, and encrypted.
+        /// Requires login authentication.
+        /// </summary>
+        [ApiAccessControl(ApiProtectionLevel.Encrypted, ApiAccessRequirement.Authenticated)]
+        public HelloResult HelloEncrypted(HelloArgs args)
+        {
+            return new HelloResult()
+            {
+                Message = $"[Encrypted & Auth] Hello, {args.UserName}"
+            };
+        }
+
+        /// <summary>
+        /// Local only — can only be invoked from local server (no remote API access).
+        /// </summary>
+        [ApiAccessControl(ApiProtectionLevel.LocalOnly, ApiAccessRequirement.Anonymous)]
+        public HelloResult HelloLocal(HelloArgs args)
+        {
+            return new HelloResult()
+            {
+                Message = $"[LocalOnly] Hello, {args.UserName}"
             };
         }
     }
